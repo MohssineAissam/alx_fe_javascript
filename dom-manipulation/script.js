@@ -115,9 +115,9 @@ async function addQuote() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newQuote)
     });
-    showNotification("Quote synced to server.");
+    showNotification("Quotes synced with server!");
   } catch {
-    showNotification("Quote saved locally, server sync failed.", true);
+    showNotification("Quotes saved locally, server sync failed.", true);
   }
 
   document.getElementById('newQuoteText').value = '';
