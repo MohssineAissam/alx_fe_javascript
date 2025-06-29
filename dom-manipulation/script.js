@@ -228,3 +228,11 @@ populateCategories();
 showRandomQuote();
 syncWithServer(); 
 setInterval(syncWithServer, 60000);
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
+  const merged = mergeQuotes(serverQuotes, quotes);
+  quotes = merged;
+  saveQuotes();
+  populateCategories();
+  showNotification("Quotes synced from server.");
+}
