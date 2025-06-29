@@ -1,0 +1,6 @@
+{
+  "quotes": [
+    { "id": 1, "text": "Server Quote 1", "category": "Server" },
+    { "id": 2, "text": "Server Quote 2", "category": "Server" }
+  ]
+}
