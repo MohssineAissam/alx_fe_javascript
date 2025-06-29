@@ -170,13 +170,21 @@ function deduplicateQuotes(list) {
     return true;
   });
 }
+async function fetchQuotesFromServer() {
+  try {
+    const response = await fetch(SERVER_URL);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch quotes from server:", error);
+    return [];
+  }
+}
 
 async function syncWithServer() {
   try {
-    const res = await fetch(SERVER_URL);
-    const serverQuotes = await res.json();
-
-    let merged = mergeQuotes(serverQuotes, quotes);
+    const serverQuotes = await fetchQuotesFromServer();
+    const merged = mergeQuotes(serverQuotes, quotes);
     quotes = merged;
     saveQuotes();
     populateCategories();
