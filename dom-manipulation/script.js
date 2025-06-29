@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:3000/quotes";
+const SERVER_URL = "https://jsonplaceholder.typicode.com/posts";
 
 let quotes = loadQuotes() || [
   { text: "The only limit is your mind.", category: "Motivation" },
@@ -181,19 +181,23 @@ async function fetchQuotesFromServer() {
   }
 }
 
-async function syncWithServer() {
+async function fetchQuotesFromServer() {
   try {
-    const serverQuotes = await fetchQuotesFromServer();
-    const merged = mergeQuotes(serverQuotes, quotes);
-    quotes = merged;
-    saveQuotes();
-    populateCategories();
-    showNotification("Data synced with server.");
-  } catch (err) {
-    console.error("Sync failed:", err);
-    showNotification("Server sync failed.", true);
+    const response = await fetch(SERVER_URL);
+    const posts = await response.json();
+
+    const serverQuotes = posts.slice(0, 10).map(post => ({
+      text: post.title,
+      category: "Server"
+    }));
+
+    return serverQuotes;
+  } catch (error) {
+    console.error("Failed to fetch quotes from mock API:", error);
+    return [];
   }
 }
+
 
 function mergeQuotes(serverData, localData) {
   const seen = new Set();
